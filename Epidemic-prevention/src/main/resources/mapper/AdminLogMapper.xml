@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.dao.AdminDao">
+
+    <update id="addAdminLog" parameterType="ssm.domain.AdminLog">
+        insert into adminlog (adminUsername,loginIp,loginTime,logoutTime,isSafeExit)
+        values (#{adminUsername},#{loginIp},#{loginTime},#{logoutTime},#{isSafeExit})
+    </update>
+
+    <select id="getAdminLogByUsername" resultType="ssm.domain.AdminLog">
+        select * from adminlog where adminUsername=#{username}
+    </select>
+
+    <select id="getAdminLogByLoginTime"     resultType="ssm.domain.AdminLog">
+        select * from adminlog where loginTime=#{loginTime}
+    </select>
+
+    <update id="updateAdminLog" parameterType="ssm.domain.AdminLog">
+        update adminlog
+        <set>
+            <if test="adminUsername!=null">
+                adminUsername=#{adminUsername},
+            </if>
+            <if test="loginIp!=null">
+                loginIp=#{loginIp},
+            </if>
+            <if test="loginTime!=null">
+                loginTime=#{loginTime},
+            </if>
+            <if test="logoutTime!=null">
+                logoutTime=#{logoutTime},
+            </if>
+            <if test="isSafeExit!=null">
+                isSafeExit=#{isSafeExit},
+            </if>
+
+        </set>
+        where logId=#{logId}
+
+    </update>
+
+    <select id="getAdminLogList" resultType="ssm.domain.AdminLog">
+        select * from adminlog order by logId
+    </select>
+</mapper>
