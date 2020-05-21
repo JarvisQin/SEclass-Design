@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--开启注解扫描，只扫描Controller注解,use-default-filters="false"支持事务-->
+    <context:component-scan base-package="ssm" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置视图解析器对象-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--JSP文件所在目录-->
+        <property name="prefix" value="/WEB-INF/"/>
+        <!--文件的后缀名-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--过滤静态资源-->
+<!--    <mvc:resources mapping="/css/**" location="../webapp/css/"/>-->
+<!--    <mvc:resources mapping="/image/**" location="../webapp/image/"/>-->
+<!--    <mvc:resources mapping="/js/**" location="../webapp/js/"/>-->
+<!--    <mvc:resources mapping="/layui/**" location="../webapp/layui/"/>-->
+    <mvc:default-servlet-handler/>
+
+    <!--开启SpringMVC注解的支持-->
+    <mvc:annotation-driven/>
+
+
+    <!-- 定义Spring MVC的拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="ssm.interceptor.AuthorizedInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
