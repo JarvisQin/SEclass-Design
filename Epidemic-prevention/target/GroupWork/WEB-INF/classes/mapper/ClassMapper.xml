@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.dao.ClassDao">
+
+    <resultMap id="classResultMap" type="ssm.domain.DClass">
+        <id property="classId" column="classId"/>
+        <result property="className" column="className"/>
+        <result property="classNote" column="classNote"/>
+
+        <collection property="studentList" javaType="ArrayList"
+                    column="classId" ofType="ssm.domain.Student"
+                    select="ssm.dao.StudentDao.getStudentByClassId"
+                    fetchType="eager"><!--这里如果是lazy 懒加载会造成json异常-->
+            <id property="id" column="id"/>
+            <!--只查询了课程名称-->
+            <result property="username" column="username"/>
+
+        </collection>
+    </resultMap>
+
+    <select id="getClassList" resultMap="classResultMap">
+        select * from class
+    </select>
+
+    <delete id="deleteByClassId">
+        delete from class where classId=#{classId}
+    </delete>
+
+
+    <select id="getAllClasses" resultType="ssm.domain.DClass">
+        select * from class
+    </select>
+
+    <select id="getClassById" resultType="ssm.domain.DClass">
+        select * from class where classId=#{classId}
+    </select>
+
+    <select id="getClassByClassName" resultType="ssm.domain.DClass">
+        select * from class where className=#{className}
+    </select>
+
+    <update id="updateClass" parameterType="ssm.domain.DClass">
+        update class
+        <set>
+            <if test="className!=null">
+                className=#{className},
+            </if>
+            <if test="classNote!=null">
+                classNote=#{classNote}
+            </if>
+        </set>
+        where classId=#{classId}
+    </update>
+
+    <insert id="insertClass" parameterType="ssm.domain.DClass">
+        insert into class(className,classNote)
+        values (#{className},#{classNote})
+    </insert>
+</mapper>

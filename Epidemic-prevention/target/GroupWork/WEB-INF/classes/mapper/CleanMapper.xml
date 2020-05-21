@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.dao.CleanDao">
+    <resultMap id="cleanResultMap" type="ssm.domain.Clean">
+        <id property="cleanId" column="cleanId"/>
+        <result property="cleanTime" column="cleanTime"/>
+        <result property="cleanLevel" column="cleanLevel"/>
+
+        <association property="student" javaType="ssm.domain.Student">
+            <id property="studentId" column="studentId"/>
+            <result property="username" column="username"/>
+        </association>
+        <association property="dormitory" javaType="ssm.domain.Dormitory">
+            <id property="dormitoryId" column="dormitoryId"/>
+            <result property="dormitoryNumber" column="dormitoryNumber"/>
+        </association>
+
+    </resultMap>
+
+    <select id="getCleanList" resultMap="cleanResultMap">
+        select * from clean ,student,dormitory
+        where clean.studentId=student.studentId and clean.dormitoryId=dormitory.dormitoryId
+    </select>
+
+    <insert id="addClean" parameterType="ssm.domain.Clean">
+        insert into clean(cleanTime, studentId, cleanLevel, dormitoryId)
+        VALUES(#{cleanTime},#{studentId},#{cleanLevel},#{dormitoryId})
+    </insert>
+
+
+    <update id="updateClean" parameterType="ssm.domain.Clean">
+        update clean
+        <set>
+            <if test="cleanTime!=null">
+                cleanTime=#{cleanTime},
+            </if>
+            <if test="studentId!=null">
+                studentId=#{studentId},
+            </if>
+            <if test="dormitoryId!=null">
+                dormitoryId=#{dormitoryId},
+            </if>
+            <if test="cleanLevel!=null">
+                cleanLevel=#{cleanLevel}
+            </if>
+        </set>
+        where cleanId=#{cleanId}
+    </update>
+
+    <select id="getCleanById" resultType="ssm.domain.Clean">
+        select *
+        from clean where cleanId=#{cleanId}
+    </select>
+
+    <delete id="deleteCleanById">
+        delete from clean where cleanId=#{cleanId}
+    </delete>
+</mapper>

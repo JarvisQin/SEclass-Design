@@ -1,8 +1,9 @@
 package ssm.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Contact {
+public class Contact implements Serializable {
     private Integer contact_id;
     private Integer user_id;
     private String name;

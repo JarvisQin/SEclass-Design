@@ -1,8 +1,6 @@
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ssm.service.AdminService;
-import ssm.service.DormitoryService;
 
 public class TestSpring {
     @Test

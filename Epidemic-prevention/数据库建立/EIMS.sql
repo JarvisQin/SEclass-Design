@@ -134,3 +134,26 @@ ADD CONSTRAINT `store_id`
 
 ALTER TABLE `eims`.`user` 
 CHANGE COLUMN `birthday` `birthday` DATE NULL DEFAULT NULL ;
+
+CREATE TABLE `eims`.`log` (
+  `logId` INT NOT NULL,
+  `username` VARCHAR(45) NULL,
+  `loginIp` VARCHAR(45) NULL,
+  `loginTime` DATETIME NULL,
+  `logouttime` DATETIME NULL,
+  `isSafeExit` TINYINT NULL,
+  PRIMARY KEY (`logId`));
+  
+ALTER TABLE `eims`.`mask_order` 
+ADD COLUMN `finished` TINYINT NULL AFTER `phone`;
+
+ALTER TABLE `eims`.`mask_order` 
+ADD COLUMN `user_id` INT NOT NULL AFTER `store_id`,
+ADD INDEX `user_id3_idx` (`user_id` ASC) VISIBLE;
+;
+ALTER TABLE `eims`.`mask_order` 
+ADD CONSTRAINT `user_id3`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `eims`.`user` (`user_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

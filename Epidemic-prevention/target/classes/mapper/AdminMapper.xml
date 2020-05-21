@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.dao.AdminDao">
+
+    <!--因为数据库中字段和实体类属性 完全一致 所以可以用 resultType 不然就要用resultMap做一下映射-->
+    <select id="login" resultType="ssm.domain.Admin">
+        select * from admin
+        <where>
+            <if test="username!=null">
+                and username=#{username}
+            </if>
+            <if test="password!=null">
+                and password=#{password}
+            </if>
+        </where>
+    </select>
+
+    <select id="getAdminById" resultType="ssm.domain.Admin">
+
+        select * from admin where adminId=#{adminId}
+    </select>
+    <select id="getAdminByRoleId" resultType="ssm.domain.Admin">
+
+        select * from admin where roleId=#{roleId}
+    </select>
+
+    <update id="updateAdmin" parameterType="ssm.domain.Admin">
+        update admin
+        <set>
+            <if test="username!=null">
+                username=#{username},
+            </if>
+            <if test="password!=null">
+                password=#{password},
+            </if>
+            <if test="nickname!=null">
+                nickname=#{nickname},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="roleId!=null">
+                roleId=#{roleId},
+            </if>
+            <if test="phone!=null">
+                phone=#{phone},
+            </if>
+            <if test="email!=null">
+                email=#{email},
+            </if>
+        </set>
+        where adminId=#{adminId}
+
+    </update>
+
+    <select id="getAdminByUsername" resultType="ssm.domain.Admin">
+        select * from admin where username=#{username}
+    </select>
+
+    <select id="getAdminList" resultType="ssm.domain.Admin">
+        select * from admin order by adminId
+    </select>
+
+    <insert id="addAdmin" parameterType="ssm.domain.Admin">
+        insert into admin(username,pass
+        word,nickname,sex,phone,email,roleId)
+        values (#{username},#{password},#{nickname},#{sex},#{phone},#{email},#{roleId})
+    </insert>
+
+    <delete id="deleteAdminById">
+        delete from admin where adminId=#{adminId}
+    </delete>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.dao.RoleDao">
+
+    <update id="updateByKey" parameterType="ssm.domain.Role">
+        update role
+        <set>
+            <if test="roleName!=null">
+                roleName=#{roleName},
+            </if>
+            <if test="roleRemark!=null">
+                roleRemark=#{roleRemark}
+            </if>
+        </set>
+        where roleId=#{roleId}
+    </update>
+
+    <select id="getAllRoles" resultType="ssm.domain.Role">
+        select * from role order by roleId
+    </select>
+
+    <select id="getRoleById" resultType="ssm.domain.Role">
+        select * from role where roleId=#{roleId}
+    </select>
+
+    <delete id="deleteRole">
+        delete from role where roleId =#{roleId}
+    </delete>
+    <select id="getRoleByRoleName" resultType="ssm.domain.Role">
+        select * from role where roleName=#{roleName}
+    </select>
+    <insert id="addRole" parameterType="ssm.domain.Role">
+       insert into role (roleName,roleRemark) values (#{roleName},#{roleRemark})
+    </insert>
+<!--    <select id="selectRoleByRoleName" resultType="ssm.domain.Role">-->
+<!--        select * from role where roleName=#{roleName}-->
+<!--    </select>-->
+</mapper>
